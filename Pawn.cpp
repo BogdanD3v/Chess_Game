@@ -4,12 +4,12 @@ void Pawn::loadTexture()
 {
 	if (isWhite == true)
 	{
-		if (!texture.loadFromFile("texture/Pawn_White"));
+		if (!texture.loadFromFile("textures/Pawn_White.png"));
 			std::cerr << "Failed to load Pawn_White texture!" << "\n";
 	}
 	else
 	{
-		if (!texture.loadFromFile("texture/Pawn_Black"));
+		if (!texture.loadFromFile("textures/Pawn_Black.png"));
 			std::cerr << "Failed to load Pawn_Black texture!" << "\n";
 	}
 
@@ -19,10 +19,4 @@ void Pawn::loadTexture()
 Pawn::Pawn(bool isWhite) : Figure(isWhite) 
 {
 	loadTexture();
-}
-
-void Pawn::draw(sf::RenderWindow* window, sf::Vector2f position)
-{
-	sprite.setPosition(position);
-	window->draw(sprite);
 }

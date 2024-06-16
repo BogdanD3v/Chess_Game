@@ -18,6 +18,6 @@ public:
 	Figure(bool);
 	virtual ~Figure() = default;
 
-	virtual void draw(sf::RenderWindow*, sf::Vector2f) = 0;
+	void draw(sf::RenderWindow*, sf::Vector2f);
 };
 

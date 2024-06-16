@@ -13,7 +13,5 @@ private:
 public:
 
 	Pawn(bool);
-
-	void draw(sf::RenderWindow*, sf::Vector2f) override;
 };
 

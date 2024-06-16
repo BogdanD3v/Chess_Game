@@ -7,6 +7,11 @@
 
 #include "Figure.h"
 #include "Pawn.h"
+#include "Rook.h"
+#include "Knight.h"
+#include "Bishop.h"
+#include "King.h"
+#include "Queen.h"
 
 class Board
 {
@@ -21,12 +26,14 @@ private:
 
 	void loadTexture();
 
+	void initializeVector();
+
 	void initializeFigures();
 
 public:
 
 	Board();
-	~Board();
+	virtual ~Board();
 
 	void draw(sf::RenderWindow*);
 };
