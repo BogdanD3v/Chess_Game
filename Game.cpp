@@ -2,8 +2,8 @@
 
 void Game::initializeWindow()
 {
-	this->videoMode.height = 900;
-	this->videoMode.width = 750;
+	this->videoMode.height = 800;
+	this->videoMode.width = 800;
 
 	this->window = new sf::RenderWindow(this->videoMode, "Chess Game", sf::Style::Titlebar | sf::Style::Close);
 
@@ -55,6 +55,8 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear(sf::Color::Black);
+
+	board.draw(this->window);
 
 	this->window->display();
 }

@@ -6,6 +6,8 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
+#include "Board.h"
+
 class Game
 {
 private:
@@ -13,6 +15,8 @@ private:
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
 	sf::Event event;
+
+	Board board;
 
 	void initializeWindow();
 
