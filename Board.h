@@ -21,6 +21,10 @@ private:
 
 	int fieldSize;
 
+	std::vector<sf::Vector2i> highlightedSpots;
+
+	sf::Vector2i mousePosition;
+
 	sf::Sprite sprite;
 	sf::Texture texture;
 
@@ -36,5 +40,9 @@ public:
 	virtual ~Board();
 
 	void draw(sf::RenderWindow*);
+
+	void onClick(sf::Vector2i);
+
+	void drawAvailableMove(sf::RenderWindow*);
 };
 

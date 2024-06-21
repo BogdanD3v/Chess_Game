@@ -20,3 +20,8 @@ Knight::Knight(bool isWhite) : Figure(isWhite)
 {
 	loadTexture();
 }
+
+std::vector<sf::Vector2i> Knight::availableMove()
+{
+	return { {0,0} };
+}

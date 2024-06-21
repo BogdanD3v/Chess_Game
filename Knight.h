@@ -13,5 +13,7 @@ private:
 public:
 
 	Knight(bool);
+
+	std::vector<sf::Vector2i> availableMove() override;
 };
 

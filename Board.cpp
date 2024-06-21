@@ -16,6 +16,13 @@ void Board::initializeVector()
 	{
 		figures[i].resize(8);
 	}
+
+	highlightedSpots.resize(8);
+
+	for (int i = 0; i < 8; i++)
+	{
+		figures[i].resize(8);
+	}
 }
 
 void Board::initializeFigures()
@@ -48,7 +55,7 @@ void Board::initializeFigures()
 	figures[7][4] = new Queen(true);
 }
 
-Board::Board() : fieldSize(100)
+Board::Board() : fieldSize(100), mousePosition({0,3})
 {
 	loadTexture();
 	initializeVector();
@@ -72,6 +79,32 @@ void Board::draw(sf::RenderWindow* window)
 		{
 			if (figures[i][j] != nullptr)
 				figures[i][j]->draw(window, sf::Vector2f( j * fieldSize + 3, i * fieldSize + 3 ));
+		}
+	}
+}
+
+void Board::onClick(sf::Vector2i _mousePosition)
+{
+	mousePosition.y = _mousePosition.y / fieldSize;
+	mousePosition.x = _mousePosition.x / fieldSize;
+
+	if (figures[mousePosition.y][mousePosition.x] != nullptr)
+		highlightedSpots = { figures[mousePosition.y][mousePosition.x]->availableMove() };
+}
+
+void Board::drawAvailableMove(sf::RenderWindow* window)
+{
+	if (figures[mousePosition.y][mousePosition.x] != nullptr)
+	{
+		sf::RectangleShape* rectangle;
+
+		for (int i = 0; i < highlightedSpots.size(); i++)
+		{
+			rectangle = new sf::RectangleShape;
+			rectangle->setFillColor(sf::Color(0, 255, 255, 128));
+			rectangle->setSize({ 100,100 });
+			rectangle->setPosition(highlightedSpots[i].x * 100, highlightedSpots[i].y * 100);
+			window->draw(*rectangle);
 		}
 	}
 }

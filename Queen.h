@@ -13,5 +13,7 @@ private:
 public:
 
 	Queen(bool);
+
+	std::vector<sf::Vector2i> availableMove() override;
 };
 

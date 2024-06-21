@@ -20,3 +20,8 @@ Queen::Queen(bool isWhite) : Figure(isWhite)
 {
 	loadTexture();
 }
+
+std::vector<sf::Vector2i> Queen::availableMove()
+{
+	return { {0,0} };
+}

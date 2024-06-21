@@ -20,3 +20,8 @@ Rook::Rook(bool isWhite) : Figure(isWhite)
 {
 	loadTexture();
 }
+
+std::vector<sf::Vector2i> Rook::availableMove()
+{
+	return { {0,0} };
+}

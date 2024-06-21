@@ -20,3 +20,8 @@ Bishop::Bishop(bool isWhite) : Figure(isWhite)
 {
 	loadTexture();
 }
+
+std::vector<sf::Vector2i> Bishop::availableMove()
+{
+	return { {0,0} };
+}

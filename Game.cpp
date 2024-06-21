@@ -43,6 +43,10 @@ void Game::pollEvents()
 
 				this->window->close();
 			}
+		case sf::Event::MouseButtonPressed:
+
+			board.onClick(sf::Mouse::getPosition(*this->window));
+			break;
 		}
 	}
 }
@@ -57,6 +61,8 @@ void Game::render()
 	this->window->clear(sf::Color::Black);
 
 	board.draw(this->window);
+
+	board.drawAvailableMove(this->window);
 
 	this->window->display();
 }

@@ -20,3 +20,24 @@ Pawn::Pawn(bool isWhite) : Figure(isWhite)
 {
 	loadTexture();
 }
+
+std::vector<sf::Vector2i> Pawn::availableMove()
+{
+	int xIndex = sprite.getPosition().x / 100;
+	int yIndex = sprite.getPosition().y / 100;
+
+	std::vector<sf::Vector2i> coordinates;
+
+	if (isWhite)
+	{
+		coordinates.push_back({ xIndex,yIndex - 1 });
+		coordinates.push_back({ xIndex,yIndex - 2 });
+	}
+	else
+	{
+		coordinates.push_back({ xIndex,yIndex + 1 });
+		coordinates.push_back({ xIndex,yIndex + 2 });
+	}
+
+	return coordinates;
+}
