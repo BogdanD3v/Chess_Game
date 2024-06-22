@@ -4,21 +4,26 @@ void Pawn::loadTexture()
 {
 	if (isWhite == true)
 	{
-		if (!texture.loadFromFile("textures/Pawn_White.png"));
+		if (!texture.loadFromFile("textures/Pawn_White.png"))
 			std::cerr << "Failed to load Pawn_White texture!" << "\n";
 	}
 	else
 	{
-		if (!texture.loadFromFile("textures/Pawn_Black.png"));
+		if (!texture.loadFromFile("textures/Pawn_Black.png"))
 			std::cerr << "Failed to load Pawn_Black texture!" << "\n";
 	}
 
 	sprite.setTexture(texture);
 }
 
-Pawn::Pawn(bool isWhite) : Figure(isWhite) 
+Pawn::Pawn(bool isWhite) : Figure(isWhite), isFirstMove(true)
 {
 	loadTexture();
+}
+
+void Pawn::setIsNextMove()
+{
+	isFirstMove = false;
 }
 
 std::vector<sf::Vector2i> Pawn::availableMove()
@@ -28,16 +33,31 @@ std::vector<sf::Vector2i> Pawn::availableMove()
 
 	std::vector<sf::Vector2i> coordinates;
 
-	if (isWhite)
+	if (isFirstMove)
 	{
-		coordinates.push_back({ xIndex,yIndex - 1 });
-		coordinates.push_back({ xIndex,yIndex - 2 });
+		if (isWhite)
+		{
+			coordinates.push_back({ xIndex,yIndex - 1 });
+			coordinates.push_back({ xIndex,yIndex - 2 });
+		}
+		else
+		{
+			coordinates.push_back({ xIndex,yIndex + 1 });
+			coordinates.push_back({ xIndex,yIndex + 2 });
+		}
 	}
 	else
 	{
-		coordinates.push_back({ xIndex,yIndex + 1 });
-		coordinates.push_back({ xIndex,yIndex + 2 });
+		if (isWhite)
+		{
+			coordinates.push_back({ xIndex,yIndex - 1 });
+		}
+		else
+		{
+			coordinates.push_back({ xIndex,yIndex + 1 });
+		}
 	}
+	
 
 	return coordinates;
 }

@@ -4,12 +4,12 @@ void Queen::loadTexture()
 {
 	if (isWhite == true)
 	{
-		if (!texture.loadFromFile("textures/Queen_White.png"));
+		if (!texture.loadFromFile("textures/Queen_White.png"))
 		std::cerr << "Failed to load Queen_White texture!" << "\n";
 	}
 	else
 	{
-		if (!texture.loadFromFile("textures/Queen_Black.png"));
+		if (!texture.loadFromFile("textures/Queen_Black.png"))
 		std::cerr << "Failed to load Queen_Black texture!" << "\n";
 	}
 

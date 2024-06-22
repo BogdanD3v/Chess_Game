@@ -17,16 +17,16 @@ class Board
 {
 private:
 
+	Figure* choosenFigure;
+
 	std::vector<std::vector<Figure*>> figures;
-
-	int fieldSize;
-
 	std::vector<sf::Vector2i> highlightedSpots;
 
 	sf::Vector2i mousePosition;
-
 	sf::Sprite sprite;
 	sf::Texture texture;
+
+	int fieldSize;
 
 	void loadTexture();
 

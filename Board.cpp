@@ -89,7 +89,43 @@ void Board::onClick(sf::Vector2i _mousePosition)
 	mousePosition.x = _mousePosition.x / fieldSize;
 
 	if (figures[mousePosition.y][mousePosition.x] != nullptr)
-		highlightedSpots = { figures[mousePosition.y][mousePosition.x]->availableMove() };
+	{
+		highlightedSpots = figures[mousePosition.y][mousePosition.x]->availableMove();
+		choosenFigure = figures[mousePosition.y][mousePosition.x];
+	}
+	else
+	{
+		for (auto const& el : highlightedSpots)
+		{
+			if (mousePosition.x == el.x && mousePosition.y == el.y)
+			{
+				for (int i = 0; i < figures.size(); i++)
+				{
+					for (int j = 0; j < figures[i].size(); j++)
+					{
+						if (figures[i][j] == choosenFigure)
+						{
+							figures[i][j] = nullptr;
+							break;
+						}
+					}
+				}
+
+				Pawn* pawn = dynamic_cast<Pawn*>(choosenFigure);
+				if (pawn)
+				{
+					pawn->setIsNextMove();
+				}
+
+				figures[mousePosition.y][mousePosition.x] = choosenFigure;
+				choosenFigure = nullptr;
+
+				highlightedSpots.clear();
+
+				break;
+			}
+		}
+	}
 }
 
 void Board::drawAvailableMove(sf::RenderWindow* window)
