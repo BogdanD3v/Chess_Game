@@ -20,7 +20,7 @@ private:
 	Figure* choosenFigure;
 
 	std::vector<std::vector<Figure*>> figures;
-	std::vector<sf::Vector2i> highlightedSpots;
+	std::vector<sf::Vector2i> availableMovement;
 
 	sf::Vector2i mousePosition;
 	sf::Sprite sprite;

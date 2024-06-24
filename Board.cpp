@@ -17,7 +17,7 @@ void Board::initializeVector()
 		figures[i].resize(8);
 	}
 
-	highlightedSpots.resize(8);
+	availableMovement.resize(8);
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -88,14 +88,40 @@ void Board::onClick(sf::Vector2i _mousePosition)
 	mousePosition.y = _mousePosition.y / fieldSize;
 	mousePosition.x = _mousePosition.x / fieldSize;
 
-	if (figures[mousePosition.y][mousePosition.x] != nullptr)
+	Pawn* pawn = dynamic_cast<Pawn*>(choosenFigure);
+
+	bool isAvailableMoveClicked = false;
+
+	for (auto const& el : availableMovement)
 	{
-		highlightedSpots = figures[mousePosition.y][mousePosition.x]->availableMove();
+		if (el.x == mousePosition.x && el.y == mousePosition.y)
+			isAvailableMoveClicked = true;
+
+	}
+
+	if (figures[mousePosition.y][mousePosition.x] != nullptr && !isAvailableMoveClicked)
+	{
+		availableMovement = figures[mousePosition.y][mousePosition.x]->availableMove();
+
+		if (pawn)
+		{
+			for (auto const& el : pawn->availableCapture())
+			{
+				if (figures[el.y][el.x] != nullptr)
+				{
+					availableMovement.push_back(el);
+				}
+			}
+		}
+
 		choosenFigure = figures[mousePosition.y][mousePosition.x];
 	}
 	else
 	{
-		for (auto const& el : highlightedSpots)
+		bool figureRejected = false;
+		bool enemyRejected = false;
+
+		for (auto const& el : availableMovement)
 		{
 			if (mousePosition.x == el.x && mousePosition.y == el.y)
 			{
@@ -106,12 +132,20 @@ void Board::onClick(sf::Vector2i _mousePosition)
 						if (figures[i][j] == choosenFigure)
 						{
 							figures[i][j] = nullptr;
-							break;
+							figureRejected = true;
 						}
+						if (figures[el.y][el.x] != nullptr)
+						{
+							figures[el.y][el.x] = nullptr;
+							enemyRejected = true;
+						}
+						if (enemyRejected && figureRejected)
+							break;
 					}
 				}
 
-				Pawn* pawn = dynamic_cast<Pawn*>(choosenFigure);
+				isAvailableMoveClicked = false;
+
 				if (pawn)
 				{
 					pawn->setIsNextMove();
@@ -120,7 +154,7 @@ void Board::onClick(sf::Vector2i _mousePosition)
 				figures[mousePosition.y][mousePosition.x] = choosenFigure;
 				choosenFigure = nullptr;
 
-				highlightedSpots.clear();
+				availableMovement.clear();
 
 				break;
 			}
@@ -132,15 +166,34 @@ void Board::drawAvailableMove(sf::RenderWindow* window)
 {
 	if (figures[mousePosition.y][mousePosition.x] != nullptr)
 	{
-		sf::RectangleShape* rectangle;
+		Pawn* pawn = dynamic_cast<Pawn*>(choosenFigure);
 
-		for (int i = 0; i < highlightedSpots.size(); i++)
+		if (pawn)
 		{
-			rectangle = new sf::RectangleShape;
-			rectangle->setFillColor(sf::Color(0, 255, 255, 128));
-			rectangle->setSize({ 100,100 });
-			rectangle->setPosition(highlightedSpots[i].x * 100, highlightedSpots[i].y * 100);
-			window->draw(*rectangle);
+			for (auto const& el : pawn->availableCapture())
+			{
+				if (figures[el.y][el.x] != nullptr)
+				{
+					availableMovement.push_back(el);
+				}
+			}
+		}
+
+		for (int i = 0; i < availableMovement.size(); i++)
+		{
+			sf::RectangleShape rectangle;
+
+			if (figures[availableMovement[i].y][availableMovement[i].x] != nullptr)
+			{
+				rectangle.setFillColor(sf::Color(0, 0, 0, 0));
+				rectangle.setOutlineColor(sf::Color(255, 0, 0, 255));
+				rectangle.setOutlineThickness(5);
+			}
+			else rectangle.setFillColor(sf::Color(0, 255, 255, 100));
+
+			rectangle.setSize({ 100,100 });
+			rectangle.setPosition(availableMovement[i].x * 100, availableMovement[i].y * 100);
+			window->draw(rectangle);
 		}
 	}
 }

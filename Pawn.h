@@ -18,6 +18,8 @@ public:
 
 	void setIsNextMove();
 
+	std::vector<sf::Vector2i> availableCapture();
+
 	std::vector<sf::Vector2i> availableMove() override;
 };
 
