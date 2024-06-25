@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Figure.h"
+#include "Board.h"
 
 class Pawn final : public Figure
 {

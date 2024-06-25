@@ -88,6 +88,8 @@ void Board::onClick(sf::Vector2i _mousePosition)
 	mousePosition.y = _mousePosition.y / fieldSize;
 	mousePosition.x = _mousePosition.x / fieldSize;
 
+	figure->initializeFiguresVector(figures);
+
 	Pawn* pawn = dynamic_cast<Pawn*>(choosenFigure);
 
 	bool isAvailableMoveClicked = false;

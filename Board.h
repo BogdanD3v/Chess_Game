@@ -19,6 +19,8 @@ private:
 
 	Figure* choosenFigure;
 
+	Figure* figure;
+
 	std::vector<std::vector<Figure*>> figures;
 	std::vector<sf::Vector2i> availableMovement;
 
@@ -44,5 +46,7 @@ public:
 	void onClick(sf::Vector2i);
 
 	void drawAvailableMove(sf::RenderWindow*);
+
+	void updateFiguresVectorInFigures();
 };
 

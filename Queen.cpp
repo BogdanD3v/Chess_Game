@@ -24,4 +24,5 @@ Queen::Queen(bool isWhite) : Figure(isWhite)
 std::vector<sf::Vector2i> Queen::availableMove()
 {
 	return { {0,0} };
-}
+};
+

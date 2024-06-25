@@ -58,29 +58,32 @@ std::vector<sf::Vector2i> Pawn::availableMove()
 	int yIndex = sprite.getPosition().y / 100;
 
 	std::vector<sf::Vector2i> coordinates;
+	std::vector<std::vector<Figure*>> figures = figures;
+
+	auto checkIsAvailable = [&figures, &coordinates](int x, int y) {if (figures[y][x] == nullptr) { coordinates.push_back({ x, y }); }; };
 
 	if (isFirstMove)
 	{
 		if (isWhite)
 		{
-			coordinates.push_back({ xIndex,yIndex - 1 });
-			coordinates.push_back({ xIndex,yIndex - 2 });
+			checkIsAvailable(xIndex, yIndex - 1);
+			checkIsAvailable(xIndex, yIndex - 2);
 		}
 		else
 		{
-			coordinates.push_back({ xIndex,yIndex + 1 });
-			coordinates.push_back({ xIndex,yIndex + 2 });
+			checkIsAvailable(xIndex, yIndex + 1);
+			checkIsAvailable(xIndex, yIndex + 2);
 		}
 	}
 	else
 	{
 		if (isWhite)
 		{
-			coordinates.push_back({ xIndex,yIndex - 1 });		
+			checkIsAvailable(xIndex, yIndex - 1);
 		}
 		else
 		{
-			coordinates.push_back({ xIndex,yIndex + 1 });			
+			checkIsAvailable(xIndex, yIndex + 1);
 		}
 	}
 	
