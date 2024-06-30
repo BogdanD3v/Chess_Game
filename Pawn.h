@@ -9,7 +9,8 @@ class Pawn final : public Figure
 {
 private:
 
-	bool isFirstMove;
+	bool isFirstMoveWhite;
+	bool isFirstMoveBlack;
 
 	void loadTexture() override;
 

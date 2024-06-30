@@ -88,18 +88,10 @@ void Board::onClick(sf::Vector2i _mousePosition)
 	mousePosition.y = _mousePosition.y / fieldSize;
 	mousePosition.x = _mousePosition.x / fieldSize;
 
-	figure->initializeFiguresVector(figures);
-
 	Pawn* pawn = dynamic_cast<Pawn*>(choosenFigure);
 
-	bool isAvailableMoveClicked = false;
-
-	for (auto const& el : availableMovement)
-	{
-		if (el.x == mousePosition.x && el.y == mousePosition.y)
-			isAvailableMoveClicked = true;
-
-	}
+	bool isAvailableMoveClicked = std::any_of(availableMovement.begin(), availableMovement.end(), 
+		[&](const sf::Vector2i &el) {return el.x == mousePosition.x && el.y == mousePosition.y; });
 
 	if (figures[mousePosition.y][mousePosition.x] != nullptr && !isAvailableMoveClicked)
 	{
@@ -107,20 +99,15 @@ void Board::onClick(sf::Vector2i _mousePosition)
 
 		if (pawn)
 		{
-			for (auto const& el : pawn->availableCapture())
-			{
-				if (figures[el.y][el.x] != nullptr)
-				{
-					availableMovement.push_back(el);
-				}
-			}
+			std::for_each(pawn->availableCapture().begin(), pawn->availableCapture().end(), 
+				[&](const sf::Vector2i& el) {if (figures[el.y][el.x] != nullptr) { availableMovement.push_back(el); }});
 		}
 
 		choosenFigure = figures[mousePosition.y][mousePosition.x];
 	}
 	else
 	{
-		bool figureRejected = false;
+		bool figureReplacement = false;
 		bool enemyRejected = false;
 
 		for (auto const& el : availableMovement)
@@ -134,28 +121,27 @@ void Board::onClick(sf::Vector2i _mousePosition)
 						if (figures[i][j] == choosenFigure)
 						{
 							figures[i][j] = nullptr;
-							figureRejected = true;
+							figureReplacement = true;
 						}
 						if (figures[el.y][el.x] != nullptr)
 						{
 							figures[el.y][el.x] = nullptr;
 							enemyRejected = true;
 						}
-						if (enemyRejected && figureRejected)
+						if (enemyRejected && figureReplacement)
 							break;
 					}
 				}
 
-				isAvailableMoveClicked = false;
+				figures[mousePosition.y][mousePosition.x] = choosenFigure;
 
 				if (pawn)
 				{
 					pawn->setIsNextMove();
 				}
 
-				figures[mousePosition.y][mousePosition.x] = choosenFigure;
+				isAvailableMoveClicked = false;
 				choosenFigure = nullptr;
-
 				availableMovement.clear();
 
 				break;
@@ -198,4 +184,9 @@ void Board::drawAvailableMove(sf::RenderWindow* window)
 			window->draw(rectangle);
 		}
 	}
+}
+
+std::vector<std::vector<Figure*>> Board::getFigures()
+{
+	return figures;
 }

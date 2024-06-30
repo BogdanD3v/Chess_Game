@@ -47,6 +47,6 @@ public:
 
 	void drawAvailableMove(sf::RenderWindow*);
 
-	void updateFiguresVectorInFigures();
+	std::vector<std::vector<Figure*>> getFigures();
 };
 
